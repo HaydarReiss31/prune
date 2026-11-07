@@ -18,6 +18,13 @@
             android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceLabelLarge" />
+
+        <TextView
             android:id="@+id/apps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

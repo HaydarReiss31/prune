@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Packages PkgX refuses to uninstall, regardless of what the removal list says. */
+/** Packages Prune refuses to uninstall, regardless of what the removal list says. */
 final class Safety {
 
     static final String MANAGER_PACKAGE = "com.hamondev.shevery";
@@ -37,7 +37,7 @@ final class Safety {
     }
 
     /**
-     * Packages that depend on the current device state: PkgX itself, the Shevery manager,
+     * Packages that depend on the current device state: Prune itself, the Shevery manager,
      * the default launcher and the enabled keyboards. Call from a background thread.
      */
     static Set<String> dynamicProtected(Context context) {

@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PkgX"
+rootProject.name = "Prune"
 
 include ':app'
 

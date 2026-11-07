@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/menu_select_recommended"
+        android:title="@string/menu_select_recommended" />
+    <item
         android:id="@+id/menu_select_all"
         android:title="@string/menu_select_all" />
     <item
         android:id="@+id/menu_clear"
         android:title="@string/menu_clear" />
+    <item
+        android:id="@+id/menu_sort"
+        android:title="@string/menu_sort">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_name"
+                    android:checked="true"
+                    android:title="@string/sort_name" />
+                <item
+                    android:id="@+id/sort_package"
+                    android:title="@string/sort_package" />
+                <item
+                    android:id="@+id/sort_risk"
+                    android:title="@string/sort_risk" />
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/menu_refresh"
         android:title="@string/menu_refresh" />

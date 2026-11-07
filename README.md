@@ -1,4 +1,4 @@
-# PkgX
+# Prune
 
 An Android debloater built on [Shevery-API](https://github.com/HmnDev-Tech/Shevery-API). It lists the apps on your device, shows community removal advice for each one, and removes the ones you pick for the current user, without root. Removed apps can be brought back at any time.
 
@@ -6,13 +6,15 @@ An Android debloater built on [Shevery-API](https://github.com/HmnDev-Tech/Sheve
 
 - Lists system apps by default, with an option to include user apps
 - Removal advice from the [Universal Android Debloater Next Generation](https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation) lists, bundled with the app (Recommended, Advanced, Expert, Unsafe, Unlisted)
-- Search and filter by rating
-- Tap to select several apps, then remove them in one go
+- Search, filter by rating, and sort by name, package name or risk
+- Tap to select several apps (with a haptic tick and a live counter), or select every Recommended app in one tap
+- Risk summary in the confirmation dialog, e.g. "3 Recommended · 1 Expert"
+- **Undo** bar after a removal: one tap restores everything you just removed
 - Details sheet with the description, source list, and the packages an app depends on or is needed by
 - **Removed** tab to restore apps (`pm install-existing`)
 - Option to keep app data when removing, so a restore brings your settings back
 - Extra confirmation for Expert and Unsafe apps
-- Built-in protection: PkgX refuses to remove core system packages, itself, the Shevery manager, the default launcher and the enabled keyboards
+- Built-in protection: Prune refuses to remove core system packages, itself, the Shevery manager, the default launcher and the enabled keyboards
 - Material 3 interface with dynamic colors on Android 12+
 
 Apps are removed with `pm uninstall --user 0` (optionally with `-k`) through `SheveryPrivilege.newProcess(...)`. Commands are run as an argument array, so nothing is interpreted by a shell.
@@ -25,7 +27,7 @@ Apps are removed with `pm uninstall --user 0` (optionally with `-k`) through `Sh
 ## Usage
 
 1. Start the Shevery server.
-2. Open PkgX and tap **Request permission**, then approve the prompt from Shevery.
+2. Open Prune and tap **Request permission**, then approve the prompt from Shevery.
 3. Tap apps to select them and press **Remove**.
 4. To undo, open the **Removed** tab, select the apps and press **Restore**.
 
@@ -33,11 +35,11 @@ The ratings are community guidance, not a guarantee. Removing the wrong system a
 
 ## Building
 
-PkgX includes the `aidl`, `shared`, `api` and `provider` modules of Shevery-API as source modules, so the Shevery-API repository must be present in a `Shevery-API/` folder at the project root.
+Prune includes the `aidl`, `shared`, `api` and `provider` modules of Shevery-API as source modules, so the Shevery-API repository must be present in a `Shevery-API/` folder at the project root.
 
 ### GitHub Actions
 
-Push the project to a GitHub repository. The **Build APK** workflow checks out Shevery-API itself, builds a debug APK, and uploads it as the `PkgX-debug` artifact. For reproducible builds, replace `ref: main` in `.github/workflows/build.yml` with a specific commit SHA.
+Push the project to a GitHub repository. The **Build APK** workflow checks out Shevery-API itself, builds a debug APK, and uploads it as the `Prune-debug` artifact. For reproducible builds, replace `ref: main` in `.github/workflows/build.yml` with a specific commit SHA.
 
 ### Local build
 
@@ -73,7 +75,7 @@ Shevery-API/                    cloned separately (not tracked)
 
 ## License
 
-PkgX is licensed under the GNU General Public License v3.0 (see `LICENSE`), the same license as the bundled Universal Android Debloater Next Generation data.
+Prune is licensed under the GNU General Public License v3.0 (see `LICENSE`), the same license as the bundled Universal Android Debloater Next Generation data.
 
 ## Credits
 

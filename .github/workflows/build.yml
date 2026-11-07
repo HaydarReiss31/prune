@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PkgX
+      - name: Checkout Prune
         uses: actions/checkout@v4
 
       # Shevery-API kaynakları settings.gradle tarafından Shevery-API/ klasöründe aranır.
@@ -36,5 +36,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: PkgX-debug
+          name: Prune-debug
           path: app/build/outputs/apk/debug/*.apk

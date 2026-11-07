@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PkgX</string>
+    <string name="app_name">Prune</string>
 
     <string name="tab_apps">Apps</string>
     <string name="tab_removed">Removed</string>
@@ -29,10 +29,25 @@
     <string name="fab_remove">Remove (%1$d)</string>
     <string name="fab_restore">Restore (%1$d)</string>
 
+    <string name="menu_select_recommended">Select all Recommended</string>
     <string name="menu_select_all">Select all</string>
     <string name="menu_clear">Clear selection</string>
+    <string name="menu_sort">Sort by</string>
     <string name="menu_refresh">Refresh list</string>
     <string name="menu_about">About</string>
+
+    <string name="sort_name">Name</string>
+    <string name="sort_package">Package name</string>
+    <string name="sort_risk">Risk (safest first)</string>
+
+    <string name="selected_count">%1$d selected</string>
+    <string name="none_recommended">No Recommended apps in the current list.</string>
+    <string name="empty_apps">No apps match your filters.</string>
+    <string name="empty_removed">Nothing removed yet. Apps you remove show up here so you can restore them.</string>
+
+    <string name="snack_removed">%1$d apps removed</string>
+    <string name="snack_restored">%1$d apps restored</string>
+    <string name="action_undo">Undo</string>
 
     <string name="action_remove">Remove</string>
     <string name="action_restore">Restore</string>
@@ -61,6 +76,6 @@
     <string name="protected_app">Protected: this app cannot be removed.</string>
     <string name="failed">Error: %1$s</string>
 
-    <string name="about_title">About PkgX</string>
+    <string name="about_title">About Prune</string>
     <string name="about_message">Debloater built on Shevery-API.\n\nRemoval advice comes from the Universal Android Debloater Next Generation lists (%1$d entries, bundled with the app). Ratings are community guidance, not a guarantee: always review before removing.</string>
 </resources>

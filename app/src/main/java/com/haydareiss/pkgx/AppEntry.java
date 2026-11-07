@@ -9,7 +9,7 @@ final class AppEntry {
     final boolean enabled;
     /** False for apps that were removed for this user (listed in the Removed tab). */
     final boolean installed;
-    /** True when PkgX refuses to remove it (see {@link Safety}). */
+    /** True when Prune refuses to remove it (see {@link Safety}). */
     final boolean protectedApp;
     final UadInfo info;
 

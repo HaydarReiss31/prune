@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.HapticFeedbackConstants;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.hamondev.shevery.api.SheveryPrivilege;
 import com.haydareiss.pkgx.databinding.ActivityMainBinding;
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private final Set<String> selected = new LinkedHashSet<>();
     private List<AppEntry> shown = new ArrayList<>();
 
+    private enum Sort { NAME, PACKAGE, RISK }
+
+    private Sort sort = Sort.NAME;
     private boolean showRemoved = false;
     /** null means "all levels". */
     private UadInfo.Level levelFilter = null;
@@ -289,10 +294,33 @@ public class MainActivity extends AppCompatActivity {
             }
             filtered.add(e);
         }
+        sortList(filtered);
         shown = filtered;
         adapter.submit(filtered);
         binding.count.setText(getString(R.string.count, filtered.size()));
+
+        boolean loading = binding.progress.getVisibility() == View.VISIBLE;
+        boolean noFilters = q.isEmpty() && levelFilter == null;
+        binding.empty.setText(showRemoved && noFilters ? R.string.empty_removed : R.string.empty_apps);
+        binding.empty.setVisibility(filtered.isEmpty() && !loading ? View.VISIBLE : View.GONE);
         updateFab();
+    }
+
+    private void sortList(List<AppEntry> list) {
+        switch (sort) {
+            case PACKAGE:
+                Collections.sort(list, (a, b) -> a.packageName.compareToIgnoreCase(b.packageName));
+                break;
+            case RISK:
+                Collections.sort(list, (a, b) -> {
+                    int c = a.info.level.compareTo(b.info.level);
+                    return c != 0 ? c : a.label.compareToIgnoreCase(b.label);
+                });
+                break;
+            default:
+                Collections.sort(list, (a, b) -> a.label.compareToIgnoreCase(b.label));
+                break;
+        }
     }
 
     private UadInfo.Level levelForChip(int chipId) {
@@ -312,12 +340,14 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (!selected.remove(e.packageName)) selected.add(e.packageName);
+        binding.list.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
         adapter.notifyItemChanged(position);
         updateFab();
     }
 
     private void updateFab() {
         int n = selected.size();
+        binding.toolbar.setSubtitle(n == 0 ? null : getString(R.string.selected_count, n));
         if (n == 0) {
             binding.fab.hide();
             return;
@@ -335,6 +365,26 @@ public class MainActivity extends AppCompatActivity {
             }
             adapter.notifyDataSetChanged();
             updateFab();
+            return true;
+        }
+        if (id == R.id.menu_select_recommended) {
+            int added = 0;
+            for (AppEntry e : shown) {
+                if (!e.protectedApp && e.info.level == UadInfo.Level.RECOMMENDED
+                        && selected.add(e.packageName)) {
+                    added++;
+                }
+            }
+            if (added == 0) toast(R.string.none_recommended);
+            adapter.notifyDataSetChanged();
+            updateFab();
+            return true;
+        }
+        if (id == R.id.sort_name || id == R.id.sort_package || id == R.id.sort_risk) {
+            item.setChecked(true);
+            sort = id == R.id.sort_package ? Sort.PACKAGE
+                    : id == R.id.sort_risk ? Sort.RISK : Sort.NAME;
+            applyFilter();
             return true;
         }
         if (id == R.id.menu_clear) {
@@ -443,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
 
         DialogConfirmBinding d = DialogConfirmBinding.inflate(getLayoutInflater());
         d.msg.setText(restore ? R.string.confirm_restore_msg : R.string.confirm_remove_msg);
+        d.summary.setText(levelSummary(targets));
         d.apps.setText(preview(targets));
         d.keepData.setChecked(true);
         d.keepData.setVisibility(restore ? View.GONE : View.VISIBLE);
@@ -463,6 +514,18 @@ public class MainActivity extends AppCompatActivity {
             positive.setEnabled(false);
             d.ack.setOnCheckedChangeListener((b, checked) -> positive.setEnabled(checked));
         }
+    }
+
+    private String levelSummary(List<AppEntry> targets) {
+        int[] counts = new int[UadInfo.Level.values().length];
+        for (AppEntry e : targets) counts[e.info.level.ordinal()]++;
+        List<String> parts = new ArrayList<>();
+        for (UadInfo.Level l : UadInfo.Level.values()) {
+            if (counts[l.ordinal()] > 0) {
+                parts.add(counts[l.ordinal()] + " " + getString(LevelUi.nameRes(l)));
+            }
+        }
+        return TextUtils.join(" \u00b7 ", parts);
     }
 
     private String preview(List<AppEntry> targets) {
@@ -486,7 +549,7 @@ public class MainActivity extends AppCompatActivity {
         progress.show();
 
         io.execute(() -> {
-            int ok = 0;
+            List<AppEntry> succeeded = new ArrayList<>();
             List<String> failures = new ArrayList<>();
             for (int i = 0; i < total; i++) {
                 AppEntry e = targets.get(i);
@@ -507,34 +570,45 @@ public class MainActivity extends AppCompatActivity {
                 }
                 PrivilegedShell.Result r = PrivilegedShell.run(cmd);
                 if (r.ok()) {
-                    ok++;
+                    succeeded.add(e);
                 } else {
                     failures.add(e.label + ": " + r.summary());
                 }
                 if (Thread.currentThread().isInterrupted()) break;
             }
-            final int okFinal = ok;
             main.post(() -> {
                 if (isDestroyed()) return;
                 progress.dismiss();
                 selected.clear();
-                showResult(okFinal, failures);
+                showResult(succeeded, failures, restore);
                 loadApps();
             });
         });
     }
 
-    private void showResult(int ok, List<String> failures) {
-        StringBuilder msg = new StringBuilder(getString(R.string.result_summary, ok, failures.size()));
-        if (!failures.isEmpty()) {
-            List<String> head = failures.subList(0, Math.min(failures.size(), 8));
-            msg.append("\n\n").append(getString(R.string.result_failures, TextUtils.join("\n", head)));
+    private void showResult(List<AppEntry> succeeded, List<String> failures, boolean restore) {
+        final int ok = succeeded.size();
+        if (failures.isEmpty()) {
+            if (ok == 0) return;
+            Snackbar bar = Snackbar.make(binding.getRoot(),
+                    getString(restore ? R.string.snack_restored : R.string.snack_removed, ok), 10_000);
+            if (!restore) {
+                bar.setAction(R.string.action_undo, v -> runBatch(succeeded, true, false));
+            }
+            bar.show();
+            return;
         }
-        new MaterialAlertDialogBuilder(this)
+        StringBuilder msg = new StringBuilder(getString(R.string.result_summary, ok, failures.size()));
+        List<String> head = failures.subList(0, Math.min(failures.size(), 8));
+        msg.append("\n\n").append(getString(R.string.result_failures, TextUtils.join("\n", head)));
+        MaterialAlertDialogBuilder b = new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.result_title)
                 .setMessage(msg.toString())
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
+                .setPositiveButton(android.R.string.ok, null);
+        if (!restore && ok > 0) {
+            b.setNeutralButton(R.string.action_undo, (x, w) -> runBatch(succeeded, true, false));
+        }
+        b.show();
     }
 
     // ---------------------------------------------------------------- helpers
