@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 // Segments are plain buttons: tapping one switches the tab and repaints the bar.
         binding.tabApps.setOnClickListener(v -> switchTab(false));
         binding.tabRemoved.setOnClickListener(v -> switchTab(true));
-        paintTabs();
+        paintTabs(false);
 
         binding.search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -363,24 +363,47 @@ public class MainActivity extends AppCompatActivity {
         showRemoved = removed;
         selected.clear();
         binding.cbUser.setVisibility(removed ? View.GONE : View.VISIBLE);
-        paintTabs();
+        paintTabs(true);
         applyFilter();
         updateFab();
     }
 
-    /** Highlights the active segment of the floating tab bar. */
-    private void paintTabs() {
-        styleSegment(binding.tabApps, !showRemoved);
-        styleSegment(binding.tabRemoved, showRemoved);
+    /**
+     * Floating tab bar: the active tab expands into icon + label, the other one shows only its icon.
+     * Changes are animated with a bounds transition so the bar slides to its new width.
+     */
+    private void paintTabs(boolean animate) {
+        if (animate) {
+            android.transition.TransitionSet set = new android.transition.TransitionSet();
+            set.addTransition(new android.transition.ChangeBounds());
+            set.setDuration(300);
+            set.setInterpolator(new android.view.animation.PathInterpolator(0.05f, 0.7f, 0.1f, 1f));
+            set.addTarget(binding.tabBar);
+            set.addTarget(binding.tabGroup);
+            set.addTarget(binding.tabApps);
+            set.addTarget(binding.tabRemoved);
+            android.transition.TransitionManager.beginDelayedTransition(
+                    (android.view.ViewGroup) binding.getRoot(), set);
+        }
+        styleSegment(binding.tabApps, R.string.tab_apps, !showRemoved);
+        styleSegment(binding.tabRemoved, R.string.tab_removed, showRemoved);
     }
 
-    private void styleSegment(MaterialButton b, boolean on) {
-        b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(on
-                ? MaterialColors.getColor(b, com.google.android.material.R.attr.colorSecondaryContainer)
-                : android.graphics.Color.TRANSPARENT));
-        b.setTextColor(MaterialColors.getColor(b, on
-                ? com.google.android.material.R.attr.colorOnSecondaryContainer
-                : com.google.android.material.R.attr.colorOnSurfaceVariant));
+    private void styleSegment(MaterialButton b, int labelRes, boolean on) {
+        float d = getResources().getDisplayMetrics().density;
+        int bg = on ? MaterialColors.getColor(b, androidx.appcompat.R.attr.colorPrimary)
+                : android.graphics.Color.TRANSPARENT;
+        int fg = MaterialColors.getColor(b, on
+                ? com.google.android.material.R.attr.colorOnPrimary
+                : com.google.android.material.R.attr.colorOnSecondaryContainer);
+        b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(bg));
+        b.setTextColor(fg);
+        b.setIconTint(android.content.res.ColorStateList.valueOf(fg));
+        b.setText(on ? getString(labelRes) : "");
+        b.setIconPadding(on ? Math.round(8 * d) : 0);
+        int pad = Math.round((on ? 20 : 12) * d);
+        b.setPaddingRelative(pad, 0, pad, 0);
+        b.setContentDescription(getString(labelRes));
     }
 
     private void updateFab() {

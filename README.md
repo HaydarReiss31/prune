@@ -15,7 +15,7 @@ An Android debloater built on [Shevery-API](https://github.com/HmnDev-Tech/Sheve
 - Option to keep app data when removing, so a restore brings your settings back
 - Extra confirmation for Expert and Unsafe apps
 - Built-in protection: Prune refuses to remove core system packages, itself, the Shevery manager, the default launcher and the enabled keyboards
-- Material You (Material 3 Expressive) interface: dynamic color on Android 12+ with an indigo fallback scheme, large collapsing top bar, a floating bottom tab bar, pill filter chips, rounded tonal cards, switch, and a rounded bottom sheet
+- Material You (Material 3 Expressive) interface: dynamic color on Android 12+ with an indigo fallback scheme, large collapsing top bar, a floating bottom tab bar that expands the active tab, pill filter chips, rounded tonal cards, switch, and a rounded bottom sheet
 - Theme options in the menu: follow system, light, dark, and a pure black mode for OLED screens
 - Adaptive, themed (monochrome) launcher icon; layout gutters widen on tablets and foldables
 - Predictive back gesture support

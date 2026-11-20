@@ -240,7 +240,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
         app:cardCornerRadius="32dp">
 
         <LinearLayout
@@ -255,14 +255,20 @@
                 style="@style/Widget.Prune.Segment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_apps" />
+                app:icon="@drawable/ic_tab_apps"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconSize="24dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/tab_removed"
                 style="@style/Widget.Prune.Segment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_removed" />
+                app:icon="@drawable/ic_tab_removed"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconSize="24dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
