@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_apps">Uygulamalar</string>
+    <string name="tab_removed">Kaldırılanlar</string>
+
+    <string name="state_no_server">Shevery sunucusu çalışmıyor. Shevery\'yi açıp başlat.</string>
+    <string name="state_no_permission">Shevery izni gerekli.</string>
+    <string name="state_ready">Bağlı (uid %1$d)</string>
+    <string name="btn_retry">Yeniden dene</string>
+    <string name="btn_request">İzin iste</string>
+    <string name="denied_hint">İzin kalıcı olarak reddedildi. İzni Shevery içinden bu uygulamaya ver.</string>
+
+    <string name="hint_search">Uygulama ara</string>
+    <string name="cb_user">Kullanıcı uygulamalarını göster</string>
+    <string name="count">%1$d uygulama</string>
+    <string name="chip_all">Tümü</string>
+
+    <string name="level_recommended">Önerilen</string>
+    <string name="level_advanced">Gelişmiş</string>
+    <string name="level_expert">Uzman</string>
+    <string name="level_unsafe">Güvensiz</string>
+    <string name="level_unlisted">Listede yok</string>
+
+    <string name="tag_protected">Korumalı</string>
+    <string name="tag_frozen">Dondurulmuş</string>
+
+    <string name="fab_remove">Kaldır (%1$d)</string>
+    <string name="fab_restore">Geri yükle (%1$d)</string>
+
+    <string name="menu_select_recommended">Önerilenlerin hepsini seç</string>
+    <string name="menu_select_all">Tümünü seç</string>
+    <string name="menu_clear">Seçimi temizle</string>
+    <string name="menu_sort">Sırala</string>
+    <string name="menu_refresh">Listeyi yenile</string>
+    <string name="menu_about">Hakkında</string>
+    <string name="menu_theme">Tema</string>
+    <string name="theme_system">Sistemi izle</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
+    <string name="menu_black">Saf siyah (koyu mod)</string>
+    <string name="menu_language">Dil</string>
+    <string name="lang_system">Sistem dili</string>
+
+    <string name="sort_name">Ad</string>
+    <string name="sort_package">Paket adı</string>
+    <string name="sort_risk">Risk (en güvenli önce)</string>
+
+    <string name="selected_count">%1$d seçildi</string>
+    <string name="none_recommended">Mevcut listede önerilen uygulama yok.</string>
+    <string name="empty_apps">Filtrelerinle eşleşen uygulama yok.</string>
+    <string name="empty_removed">Henüz kaldırılan yok. Kaldırdığın uygulamalar geri yüklemek için burada görünür.</string>
+
+    <string name="snack_removed">%1$d uygulama kaldırıldı</string>
+    <string name="snack_restored">%1$d uygulama geri yüklendi</string>
+    <string name="action_undo">Geri al</string>
+
+    <string name="action_remove">Kaldır</string>
+    <string name="action_restore">Geri yükle</string>
+    <string name="action_info">Uygulama bilgisi</string>
+    <string name="action_details">Ayrıntılar</string>
+
+    <string name="sheet_needed_by">Şunlar tarafından gerekli</string>
+    <string name="sheet_depends_on">Şunlara bağlı</string>
+    <string name="source_label">Kaynak: %1$s</string>
+    <string name="no_description">Bu paket için açıklama yok.</string>
+
+    <string name="confirm_remove_title">%1$d uygulama kaldırılsın mı?</string>
+    <string name="confirm_restore_title">%1$d uygulama geri yüklensin mi?</string>
+    <string name="confirm_remove_msg">Bu uygulamalar mevcut kullanıcı için kaldırılacak. Kaldırılanlar sekmesinden geri getirebilirsin.</string>
+    <string name="confirm_restore_msg">Bu uygulamalar mevcut kullanıcı için yeniden yüklenecek.</string>
+    <string name="confirm_keep_data">Uygulama verilerini koru</string>
+    <string name="confirm_ack">Uzman veya Güvensiz uygulamaları kaldırmanın özellikleri bozabileceğini ya da önyükleme döngüsüne (bootloop) yol açabileceğini anlıyorum.</string>
+    <string name="and_more">… ve %1$d tane daha</string>
+
+    <string name="working">Çalışıyor… %1$d / %2$d</string>
+    <string name="result_title">Tamamlandı</string>
+    <string name="result_summary">%1$d başarılı, %2$d başarısız.</string>
+    <string name="result_failures">Başarısızlar:\n%1$s</string>
+
+    <string name="not_ready">Önce Shevery bağlantısı ve izni gerekli.</string>
+    <string name="protected_app">Korumalı: bu uygulama kaldırılamaz.</string>
+    <string name="failed">Hata: %1$s</string>
+
+    <string name="about_title">Prune Hakkında</string>
+    <string name="about_message">Shevery-API üzerine kurulu debloat aracı.\n\nKaldırma önerileri Universal Android Debloater Next Generation listelerinden gelir (%1$d kayıt, uygulamayla birlikte gelir; açıklamalar İngilizcedir). Derecelendirmeler topluluk önerisidir, garanti değildir: kaldırmadan önce her zaman kontrol et.</string>
+</resources>

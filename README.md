@@ -18,6 +18,7 @@ An Android debloater built on [Shevery-API](https://github.com/HmnDev-Tech/Sheve
 - Material You (Material 3 Expressive) interface: dynamic color on Android 12+ with an indigo fallback scheme, large collapsing top bar, a floating bottom tab bar that expands the active tab, pill filter chips, rounded tonal cards, switch, and a rounded bottom sheet
 - Theme options in the menu: follow system, light, dark, and a pure black mode for OLED screens
 - Adaptive, themed (monochrome) launcher icon; layout gutters widen on tablets and foldables
+- English and Turkish interface, switchable from the menu (also listed in Android 13+ per-app language settings)
 - Predictive back gesture support
 
 Apps are removed with `pm uninstall --user 0` (optionally with `-k`) through `SheveryPrivilege.newProcess(...)`. Commands are run as an argument array, so nothing is interpreted by a shell.

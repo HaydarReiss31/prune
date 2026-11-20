@@ -40,6 +40,10 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="menu_black">Pure black (dark mode)</string>
+    <string name="menu_language">Language</string>
+    <string name="lang_system">System default</string>
+    <string name="lang_english" translatable="false">English</string>
+    <string name="lang_turkish" translatable="false">Türkçe</string>
 
     <string name="sort_name">Name</string>
     <string name="sort_package">Package name</string>

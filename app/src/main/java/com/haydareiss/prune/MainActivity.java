@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
+import androidx.core.os.LocaleListCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 : mode == AppCompatDelegate.MODE_NIGHT_NO ? R.id.theme_light : R.id.theme_system)
                 .setChecked(true);
         binding.toolbar.getMenu().findItem(R.id.menu_black).setChecked(ThemePrefs.pureBlack(this));
+        LocaleListCompat appLocales = AppCompatDelegate.getApplicationLocales();
+        String lang = appLocales.isEmpty() || appLocales.get(0) == null ? "" : appLocales.get(0).getLanguage();
+        binding.toolbar.getMenu().findItem("tr".equals(lang) ? R.id.lang_tr
+                : "en".equals(lang) ? R.id.lang_en : R.id.lang_system).setChecked(true);
 
                 // Segments are plain buttons: tapping one switches the tab and repaints the bar.
         binding.tabApps.setOnClickListener(v -> switchTab(false));
@@ -453,6 +458,14 @@ public class MainActivity extends AppCompatActivity {
             ThemePrefs.setMode(this, id == R.id.theme_light ? AppCompatDelegate.MODE_NIGHT_NO
                     : id == R.id.theme_dark ? AppCompatDelegate.MODE_NIGHT_YES
                     : AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            return true;
+        }
+        if (id == R.id.lang_system || id == R.id.lang_en || id == R.id.lang_tr) {
+            item.setChecked(true);
+            // AppCompat recreates the activity and remembers the choice.
+            AppCompatDelegate.setApplicationLocales(id == R.id.lang_tr ? LocaleListCompat.forLanguageTags("tr")
+                    : id == R.id.lang_en ? LocaleListCompat.forLanguageTags("en")
+                    : LocaleListCompat.getEmptyLocaleList());
             return true;
         }
         if (id == R.id.menu_black) {
