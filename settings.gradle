@@ -1,0 +1,45 @@
+// Shevery-API kaynakları proje klasörünün içindeki "Shevery-API" dizininde beklenir:
+//   git clone https://github.com/HmnDev-Tech/Shevery-API
+// Eklenti sürümleri Shevery-API ile aynı tutuldu (kütüphane modülleri settings düzeyindeki
+// android { } ayarına bağlı olduğu için).
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id("com.android.application") version "9.4.0-alpha07"
+        id("com.android.library") version "9.4.0-alpha07"
+    }
+}
+
+plugins {
+    id("com.android.settings") version "9.4.0-alpha07"
+}
+
+android {
+    compileSdk = 36
+    minSdk = 24
+    targetSdk = 36
+    buildToolsVersion = "36.0.0"
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Prune"
+
+include ':app'
+
+// Shevery-API modülleri: proje adları orijinaldekiyle aynı kalmalı
+// (api -> project(':aidl'), project(':shared') bağımlılıkları buna dayanıyor).
+['aidl', 'shared', 'api', 'provider'].each { name ->
+    include ":${name}"
+    project(":${name}").projectDir = file("Shevery-API/${name}")
+}

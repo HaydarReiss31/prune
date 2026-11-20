@@ -1,0 +1,40 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Prune
+        uses: actions/checkout@v4
+
+      # settings.gradle looks for the Shevery-API sources in the Shevery-API/ folder.
+      # For reproducible builds, replace ref with a commit SHA.
+      - name: Checkout Shevery-API
+        uses: actions/checkout@v4
+        with:
+          repository: HmnDev-Tech/Shevery-API
+          ref: main
+          path: Shevery-API
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Prune-debug
+          path: app/build/outputs/apk/debug/*.apk

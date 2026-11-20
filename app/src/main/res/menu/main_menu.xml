@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_select_recommended"
+        android:title="@string/menu_select_recommended" />
+    <item
+        android:id="@+id/menu_select_all"
+        android:title="@string/menu_select_all" />
+    <item
+        android:id="@+id/menu_clear"
+        android:title="@string/menu_clear" />
+    <item
+        android:id="@+id/menu_sort"
+        android:title="@string/menu_sort">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_name"
+                    android:checked="true"
+                    android:title="@string/sort_name" />
+                <item
+                    android:id="@+id/sort_package"
+                    android:title="@string/sort_package" />
+                <item
+                    android:id="@+id/sort_risk"
+                    android:title="@string/sort_risk" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_theme"
+        android:title="@string/menu_theme">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/theme_system"
+                    android:title="@string/theme_system" />
+                <item
+                    android:id="@+id/theme_light"
+                    android:title="@string/theme_light" />
+                <item
+                    android:id="@+id/theme_dark"
+                    android:title="@string/theme_dark" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_black"
+        android:checkable="true"
+        android:title="@string/menu_black" />
+    <item
+        android:id="@+id/menu_refresh"
+        android:title="@string/menu_refresh" />
+    <item
+        android:id="@+id/menu_about"
+        android:title="@string/menu_about" />
+</menu>

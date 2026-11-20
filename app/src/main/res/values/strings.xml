@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prune</string>
+
+    <string name="tab_apps">Apps</string>
+    <string name="tab_removed">Removed</string>
+
+    <string name="state_no_server">The Shevery server is not running. Open Shevery and start it.</string>
+    <string name="state_no_permission">Shevery permission required.</string>
+    <string name="state_ready">Connected (uid %1$d)</string>
+    <string name="btn_retry">Retry</string>
+    <string name="btn_request">Request permission</string>
+    <string name="denied_hint">Permission was permanently denied. Grant it to this app from within Shevery.</string>
+
+    <string name="hint_search">Search apps</string>
+    <string name="cb_user">Show user apps</string>
+    <string name="count">%1$d apps</string>
+    <string name="chip_all">All</string>
+
+    <string name="level_recommended">Recommended</string>
+    <string name="level_advanced">Advanced</string>
+    <string name="level_expert">Expert</string>
+    <string name="level_unsafe">Unsafe</string>
+    <string name="level_unlisted">Unlisted</string>
+
+    <string name="tag_protected">Protected</string>
+    <string name="tag_frozen">Frozen</string>
+
+    <string name="fab_remove">Remove (%1$d)</string>
+    <string name="fab_restore">Restore (%1$d)</string>
+
+    <string name="menu_select_recommended">Select all Recommended</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_clear">Clear selection</string>
+    <string name="menu_sort">Sort by</string>
+    <string name="menu_refresh">Refresh list</string>
+    <string name="menu_about">About</string>
+    <string name="menu_theme">Theme</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="menu_black">Pure black (dark mode)</string>
+
+    <string name="sort_name">Name</string>
+    <string name="sort_package">Package name</string>
+    <string name="sort_risk">Risk (safest first)</string>
+
+    <string name="selected_count">%1$d selected</string>
+    <string name="none_recommended">No Recommended apps in the current list.</string>
+    <string name="empty_apps">No apps match your filters.</string>
+    <string name="empty_removed">Nothing removed yet. Apps you remove show up here so you can restore them.</string>
+
+    <string name="snack_removed">%1$d apps removed</string>
+    <string name="snack_restored">%1$d apps restored</string>
+    <string name="action_undo">Undo</string>
+
+    <string name="action_remove">Remove</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_info">App info</string>
+    <string name="action_details">Details</string>
+
+    <string name="sheet_needed_by">Needed by</string>
+    <string name="sheet_depends_on">Depends on</string>
+    <string name="source_label">Source: %1$s</string>
+    <string name="no_description">No description available for this package.</string>
+
+    <string name="confirm_remove_title">Remove %1$d apps?</string>
+    <string name="confirm_restore_title">Restore %1$d apps?</string>
+    <string name="confirm_remove_msg">These apps will be removed for the current user. You can bring them back from the Removed tab.</string>
+    <string name="confirm_restore_msg">These apps will be reinstalled for the current user.</string>
+    <string name="confirm_keep_data">Keep app data</string>
+    <string name="confirm_ack">I understand that removing Expert or Unsafe apps can break features or cause a bootloop.</string>
+    <string name="and_more">… and %1$d more</string>
+
+    <string name="working">Working… %1$d / %2$d</string>
+    <string name="result_title">Finished</string>
+    <string name="result_summary">%1$d succeeded, %2$d failed.</string>
+    <string name="result_failures">Failures:\n%1$s</string>
+
+    <string name="not_ready">The Shevery connection and permission are required first.</string>
+    <string name="protected_app">Protected: this app cannot be removed.</string>
+    <string name="failed">Error: %1$s</string>
+
+    <string name="about_title">About Prune</string>
+    <string name="about_message">Debloater built on Shevery-API.\n\nRemoval advice comes from the Universal Android Debloater Next Generation lists (%1$d entries, bundled with the app). Ratings are community guidance, not a guarantee: always review before removing.</string>
+</resources>

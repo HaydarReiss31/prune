@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Static indigo scheme (seed taken from the app icon). On Android 12+ dynamic color replaces it. -->
+    <style name="Theme.Prune" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#4B55B2</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#E0E0FF</item>
+        <item name="colorOnPrimaryContainer">#000A63</item>
+        <item name="colorSecondary">#5B5D72</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#E0E1F9</item>
+        <item name="colorOnSecondaryContainer">#181A2C</item>
+        <item name="colorTertiary">#77536D</item>
+        <item name="colorTertiaryContainer">#FFD7F1</item>
+        <item name="colorOnTertiaryContainer">#2D1228</item>
+        <item name="colorSurface">#FBF8FF</item>
+        <item name="android:colorBackground">#FBF8FF</item>
+        <item name="colorOnSurface">#1B1B21</item>
+        <item name="colorOnSurfaceVariant">#46464F</item>
+        <item name="colorOutline">#777680</item>
+        <item name="colorOutlineVariant">#C7C5D0</item>
+        <item name="colorSurfaceContainerLowest">#FFFFFF</item>
+        <item name="colorSurfaceContainerLow">#F5F2FA</item>
+        <item name="colorSurfaceContainer">#EFEDF4</item>
+        <item name="colorSurfaceContainerHigh">#E9E7EF</item>
+        <item name="colorSurfaceContainerHighest">#E4E1E9</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Prune.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Prune.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Prune.Large</item>
+
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Prune.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Prune.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Prune.TitleSmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Prune.LabelLarge</item>
+
+        <item name="chipStyle">@style/Widget.Prune.Chip.Filter</item>
+        <item name="tabStyle">@style/Widget.Prune.TabLayout</item>
+        <item name="materialButtonStyle">@style/Widget.Prune.Button</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Prune.BottomSheetDialog</item>
+    </style>
+
+    <!-- Applied on top of Theme.Prune (also over dynamic colors) when "Pure black" is on in dark mode -->
+    <style name="ThemeOverlay.Prune.PureBlack" parent="">
+        <item name="colorSurface">#000000</item>
+        <item name="android:colorBackground">#000000</item>
+        <item name="colorSurfaceDim">#000000</item>
+        <item name="colorSurfaceBright">#2A2A2A</item>
+        <item name="colorSurfaceContainerLowest">#000000</item>
+        <item name="colorSurfaceContainerLow">#0A0A0A</item>
+        <item name="colorSurfaceContainer">#111111</item>
+        <item name="colorSurfaceContainerHigh">#1A1A1A</item>
+        <item name="colorSurfaceContainerHighest">#242424</item>
+    </style>
+
+    <!-- Expressive shapes: rounder than the Material 3 baseline -->
+    <style name="ShapeAppearance.Prune.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+    <style name="ShapeAppearance.Prune.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+    <style name="ShapeAppearance.Prune.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+    <style name="ShapeAppearance.Prune.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearance.Prune.Icon" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/icon_corner</item>
+    </style>
+
+    <!-- Type: heavier titles, tighter hierarchy -->
+    <style name="TextAppearance.Prune.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="TextAppearance.Prune.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="TextAppearance.Prune.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.Prune.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="TextAppearance.Prune.LargeTitle" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+    <style name="TextAppearance.Prune.SmallTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.Prune.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
+    </style>
+
+    <style name="Widget.Prune.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">52dp</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
+    </style>
+    <style name="Widget.Prune.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:minHeight">52dp</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
+    </style>
+    <style name="Widget.Prune.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">52dp</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
+    </style>
+
+    <!-- Segmented pill: the selected tab is a tonal pill that slides under the labels -->
+    <style name="Widget.Prune.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="android:background">@drawable/bg_tabs</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicator">@drawable/tab_indicator_pill</item>
+        <item name="tabIndicatorGravity">stretch</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorColor">?attr/colorSecondaryContainer</item>
+        <item name="tabSelectedTextColor">?attr/colorOnSecondaryContainer</item>
+        <item name="tabTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="tabRippleColor">@android:color/transparent</item>
+        <item name="tabTextAppearance">@style/TextAppearance.Prune.LabelLarge</item>
+    </style>
+
+    <style name="ThemeOverlay.Prune.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Prune.BottomSheet</item>
+    </style>
+    <style name="Widget.Prune.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Prune.Sheet</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.Prune.Sheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+</resources>

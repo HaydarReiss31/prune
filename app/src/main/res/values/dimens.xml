@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Horizontal page gutter; grows on wide screens so content stays readable -->
+    <dimen name="gutter">16dp</dimen>
+    <dimen name="item_corner">20dp</dimen>
+    <dimen name="icon_corner">14dp</dimen>
+</resources>

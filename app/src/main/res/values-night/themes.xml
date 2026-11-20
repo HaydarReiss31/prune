@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Prune" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#BDC2FF</item>
+        <item name="colorOnPrimary">#1A2386</item>
+        <item name="colorPrimaryContainer">#343E99</item>
+        <item name="colorOnPrimaryContainer">#E0E0FF</item>
+        <item name="colorSecondary">#C4C5DD</item>
+        <item name="colorOnSecondary">#2D2F42</item>
+        <item name="colorSecondaryContainer">#444559</item>
+        <item name="colorOnSecondaryContainer">#E0E1F9</item>
+        <item name="colorTertiary">#E6BAD7</item>
+        <item name="colorTertiaryContainer">#5D3C55</item>
+        <item name="colorOnTertiaryContainer">#FFD7F1</item>
+        <item name="colorSurface">#121318</item>
+        <item name="android:colorBackground">#121318</item>
+        <item name="colorOnSurface">#E4E1E9</item>
+        <item name="colorOnSurfaceVariant">#C7C5D0</item>
+        <item name="colorOutline">#91909A</item>
+        <item name="colorOutlineVariant">#46464F</item>
+        <item name="colorSurfaceContainerLowest">#0D0E13</item>
+        <item name="colorSurfaceContainerLow">#1B1B21</item>
+        <item name="colorSurfaceContainer">#1F1F25</item>
+        <item name="colorSurfaceContainerHigh">#292A2F</item>
+        <item name="colorSurfaceContainerHighest">#34343A</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Prune.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Prune.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Prune.Large</item>
+
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Prune.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Prune.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Prune.TitleSmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Prune.LabelLarge</item>
+
+        <item name="chipStyle">@style/Widget.Prune.Chip.Filter</item>
+        <item name="tabStyle">@style/Widget.Prune.TabLayout</item>
+        <item name="materialButtonStyle">@style/Widget.Prune.Button</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Prune.BottomSheetDialog</item>
+    </style>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#666ED0</color>
+
+    <!-- Removal-level tags: dark text on a light tint, readable in light and dark themes -->
+    <color name="level_recommended_bg">#C8E6C9</color>
+    <color name="level_recommended_fg">#1B5E20</color>
+    <color name="level_advanced_bg">#FFE082</color>
+    <color name="level_advanced_fg">#5D4300</color>
+    <color name="level_expert_bg">#FFCCBC</color>
+    <color name="level_expert_fg">#8A2A0B</color>
+    <color name="level_unsafe_bg">#FFCDD2</color>
+    <color name="level_unsafe_fg">#8E1010</color>
+    <color name="level_unlisted_bg">#E0E0E0</color>
+    <color name="level_unlisted_fg">#303030</color>
+</resources>
