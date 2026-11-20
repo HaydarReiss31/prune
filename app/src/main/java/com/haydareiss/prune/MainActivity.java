@@ -26,10 +26,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.hamondev.shevery.api.SheveryPrivilege;
 import com.haydareiss.prune.databinding.ActivityMainBinding;
 import com.haydareiss.prune.databinding.DialogConfirmBinding;
@@ -115,25 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 .setChecked(true);
         binding.toolbar.getMenu().findItem(R.id.menu_black).setChecked(ThemePrefs.pureBlack(this));
 
-        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tab_apps));
-        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tab_removed));
-        binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                showRemoved = tab.getPosition() == 1;
-                selected.clear();
-                binding.cbUser.setVisibility(showRemoved ? View.GONE : View.VISIBLE);
-                applyFilter();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+                // Segments are plain buttons: tapping one switches the tab and repaints the bar.
+        binding.tabApps.setOnClickListener(v -> switchTab(false));
+        binding.tabRemoved.setOnClickListener(v -> switchTab(true));
+        paintTabs();
 
         binding.search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -373,10 +358,34 @@ public class MainActivity extends AppCompatActivity {
         updateFab();
     }
 
+    private void switchTab(boolean removed) {
+        if (showRemoved == removed) return;
+        showRemoved = removed;
+        selected.clear();
+        binding.cbUser.setVisibility(removed ? View.GONE : View.VISIBLE);
+        paintTabs();
+        applyFilter();
+        updateFab();
+    }
+
+    /** Highlights the active segment of the floating tab bar. */
+    private void paintTabs() {
+        styleSegment(binding.tabApps, !showRemoved);
+        styleSegment(binding.tabRemoved, showRemoved);
+    }
+
+    private void styleSegment(MaterialButton b, boolean on) {
+        b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(on
+                ? MaterialColors.getColor(b, com.google.android.material.R.attr.colorSecondaryContainer)
+                : android.graphics.Color.TRANSPARENT));
+        b.setTextColor(MaterialColors.getColor(b, on
+                ? com.google.android.material.R.attr.colorOnSecondaryContainer
+                : com.google.android.material.R.attr.colorOnSurfaceVariant));
+    }
+
     private void updateFab() {
         int n = selected.size();
-        binding.collapsing.setTitle(n == 0 ? getString(R.string.app_name)
-                : getString(R.string.selected_count, n));
+        binding.toolbar.setSubtitle(n == 0 ? null : getString(R.string.selected_count, n));
         if (n == 0) {
             binding.fab.hide();
             return;

@@ -5,39 +5,30 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
+    <!-- Compact header: small top bar, controls hide while scrolling down -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         style="@style/Widget.Material3.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
         android:fitsSystemWindows="true">
 
-        <!-- Large collapsing top bar: big title that shrinks into the toolbar on scroll -->
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing"
-            style="@style/Widget.Material3.CollapsingToolbar.Large"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.Prune.SmallTitle"
-            app:expandedTitleTextAppearance="@style/TextAppearance.Prune.LargeTitle"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:title="@string/app_name">
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/TextAppearance.Prune.TitleLarge"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        <!-- Controls hide while scrolling down and come back on the first scroll up -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="@dimen/gutter"
             android:paddingEnd="@dimen/gutter"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/status_card"
@@ -45,24 +36,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?attr/colorSecondaryContainer"
-                app:cardCornerRadius="24dp">
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     android:gravity="center_vertical"
-                    android:minHeight="56dp"
+                    android:minHeight="48dp"
                     android:orientation="horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp">
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="4dp">
 
                     <View
                         android:id="@+id/status_dot"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
                         android:background="@drawable/bg_status_dot" />
 
                     <TextView
@@ -85,23 +76,17 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/search_layout"
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-                app:boxCornerRadiusBottomEnd="28dp"
-                app:boxCornerRadiusBottomStart="28dp"
-                app:boxCornerRadiusTopEnd="28dp"
-                app:boxCornerRadiusTopStart="28dp"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusTopStart="24dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 app:endIconMode="clear_text"
@@ -116,13 +101,14 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:minHeight="56dp" />
+                    android:minHeight="52dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-16dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="-16dp"
                 android:clipToPadding="false"
                 android:scrollbars="none">
@@ -186,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:minHeight="48dp"
+                android:minHeight="40dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -221,7 +207,7 @@
             android:paddingStart="@dimen/gutter"
             android:paddingTop="4dp"
             android:paddingEnd="@dimen/gutter"
-            android:paddingBottom="112dp" />
+            android:paddingBottom="120dp" />
 
         <TextView
             android:id="@+id/empty"
@@ -246,15 +232,47 @@
             app:trackCornerRadius="4dp" />
     </FrameLayout>
 
+    <!-- Floating tab bar (Apps / Removed), like the reference app -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tab_bar"
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+        app:cardCornerRadius="32dp">
+
+        <LinearLayout
+            android:id="@+id/tab_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tab_apps"
+                style="@style/Widget.Prune.Segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_apps" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tab_removed"
+                style="@style/Widget.Prune.Segment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_removed" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="92dp"
         android:visibility="gone"
         app:icon="@drawable/ic_delete" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

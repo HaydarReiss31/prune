@@ -34,7 +34,6 @@
         <item name="textAppearanceLabelLarge">@style/TextAppearance.Prune.LabelLarge</item>
 
         <item name="chipStyle">@style/Widget.Prune.Chip.Filter</item>
-        <item name="tabStyle">@style/Widget.Prune.TabLayout</item>
         <item name="materialButtonStyle">@style/Widget.Prune.Button</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Prune.BottomSheetDialog</item>
     </style>

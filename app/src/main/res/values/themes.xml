@@ -35,7 +35,6 @@
         <item name="textAppearanceLabelLarge">@style/TextAppearance.Prune.LabelLarge</item>
 
         <item name="chipStyle">@style/Widget.Prune.Chip.Filter</item>
-        <item name="tabStyle">@style/Widget.Prune.TabLayout</item>
         <item name="materialButtonStyle">@style/Widget.Prune.Button</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Prune.BottomSheetDialog</item>
     </style>
@@ -114,20 +113,12 @@
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
     </style>
 
-    <!-- Segmented pill: the selected tab is a tonal pill that slides under the labels -->
-    <style name="Widget.Prune.TabLayout" parent="Widget.Material3.TabLayout">
-        <item name="android:background">@drawable/bg_tabs</item>
-        <item name="tabMode">fixed</item>
-        <item name="tabGravity">fill</item>
-        <item name="tabIndicator">@drawable/tab_indicator_pill</item>
-        <item name="tabIndicatorGravity">stretch</item>
-        <item name="tabIndicatorFullWidth">true</item>
-        <item name="tabIndicatorAnimationMode">elastic</item>
-        <item name="tabIndicatorColor">?attr/colorSecondaryContainer</item>
-        <item name="tabSelectedTextColor">?attr/colorOnSecondaryContainer</item>
-        <item name="tabTextColor">?attr/colorOnSurfaceVariant</item>
-        <item name="tabRippleColor">@android:color/transparent</item>
-        <item name="tabTextAppearance">@style/TextAppearance.Prune.LabelLarge</item>
+    <style name="Widget.Prune.Segment" parent="Widget.Material3.Button.TextButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Prune.LabelLarge</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Prune.Pill</item>
     </style>
 
     <style name="ThemeOverlay.Prune.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
