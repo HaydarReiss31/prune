@@ -199,29 +199,11 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+        <!-- Two pages (Apps / Removed): swipe anywhere on the list or use the floating bar -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/gutter"
-            android:paddingTop="4dp"
-            android:paddingEnd="@dimen/gutter"
-            android:paddingBottom="120dp" />
-
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="16dp"
-            android:drawableTop="@drawable/ic_empty"
-            android:gravity="center"
-            android:paddingStart="48dp"
-            android:paddingEnd="48dp"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:visibility="gone" />
+            android:layout_height="match_parent" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress"

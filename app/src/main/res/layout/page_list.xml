@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/page_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/gutter"
+        android:paddingTop="4dp"
+        android:paddingEnd="@dimen/gutter"
+        android:paddingBottom="120dp" />
+
+    <TextView
+        android:id="@+id/page_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="16dp"
+        android:drawableTop="@drawable/ic_empty"
+        android:gravity="center"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:visibility="gone" />
+</FrameLayout>

@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private static final Pattern PACKAGE_NAME = Pattern.compile("^[A-Za-z0-9_.]+$");
 
     private ActivityMainBinding binding;
-    private AppAdapter adapter;
+    private final AppAdapter[] adapters = new AppAdapter[2];
+    private PageAdapter pages;
+    private final List<List<AppEntry>> pageLists = new ArrayList<>();
     private IconLoader icons;
 
     private final Handler main = new Handler(Looper.getMainLooper());
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         icons = new IconLoader(getPackageManager());
-        adapter = new AppAdapter(icons, selected, new AppAdapter.Listener() {
+        AppAdapter.Listener rowListener = new AppAdapter.Listener() {
             @Override
             public void onToggle(AppEntry entry, int position) {
                 toggle(entry, position);
@@ -105,9 +107,20 @@ public class MainActivity extends AppCompatActivity {
             public void onDetails(AppEntry entry) {
                 showDetails(entry);
             }
+        };
+        adapters[0] = new AppAdapter(icons, selected, rowListener);
+        adapters[1] = new AppAdapter(icons, selected, rowListener);
+        pageLists.add(new ArrayList<>());
+        pageLists.add(new ArrayList<>());
+        pages = new PageAdapter(adapters);
+        binding.pager.setAdapter(pages);
+        binding.pager.setOffscreenPageLimit(1);
+        binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                onPageChanged(position == 1);
+            }
         });
-        binding.list.setLayoutManager(new LinearLayoutManager(this));
-        binding.list.setAdapter(adapter);
 
         binding.toolbar.inflateMenu(R.menu.main_menu);
         binding.toolbar.setOnMenuItemClickListener(this::onMenuItem);
@@ -295,13 +308,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void applyFilter() {
-        String q = binding.search.getText().toString().trim().toLowerCase(Locale.ROOT);
-        boolean showUser = binding.cbUser.isChecked();
-        List<AppEntry> base = showRemoved ? removed : installed;
+    private List<AppEntry> filterPage(List<AppEntry> base, boolean removedPage, String q, boolean showUser) {
         List<AppEntry> filtered = new ArrayList<>();
         for (AppEntry e : base) {
-            if (!showRemoved && !e.system && !showUser) continue;
+            if (!removedPage && !e.system && !showUser) continue;
             if (levelFilter != null && e.info.level != levelFilter) continue;
             if (!q.isEmpty()
                     && !e.label.toLowerCase(Locale.ROOT).contains(q)
@@ -311,15 +321,35 @@ public class MainActivity extends AppCompatActivity {
             filtered.add(e);
         }
         sortList(filtered);
-        shown = filtered;
-        adapter.submit(filtered);
-        binding.count.setText(getString(R.string.count, filtered.size()));
+        return filtered;
+    }
 
+    private void applyFilter() {
+        String q = binding.search.getText().toString().trim().toLowerCase(Locale.ROOT);
+        boolean showUser = binding.cbUser.isChecked();
         boolean loading = binding.progress.getVisibility() == View.VISIBLE;
         boolean noFilters = q.isEmpty() && levelFilter == null;
-        binding.empty.setText(showRemoved && noFilters ? R.string.empty_removed : R.string.empty_apps);
-        binding.empty.setVisibility(filtered.isEmpty() && !loading ? View.VISIBLE : View.GONE);
+
+        for (int page = 0; page < 2; page++) {
+            boolean removedPage = page == 1;
+            List<AppEntry> filtered = filterPage(removedPage ? removed : installed, removedPage, q, showUser);
+            pageLists.set(page, filtered);
+            adapters[page].submit(filtered);
+            pages.setEmpty(page, removedPage && noFilters ? R.string.empty_removed : R.string.empty_apps,
+                    filtered.isEmpty() && !loading);
+        }
+        shown = pageLists.get(showRemoved ? 1 : 0);
+        updateCount();
         updateFab();
+    }
+
+    private void updateCount() {
+        binding.count.setText(getString(R.string.count, shown.size()));
+    }
+
+    /** The adapter of the page that is currently selected. */
+    private AppAdapter current() {
+        return adapters[showRemoved ? 1 : 0];
     }
 
     private void sortList(List<AppEntry> list) {
@@ -356,28 +386,28 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (!selected.remove(e.packageName)) selected.add(e.packageName);
-        binding.list.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
-        adapter.notifyItemChanged(position);
+        binding.pager.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
+        current().notifyItemChanged(position);
         updateFab();
     }
 
+    /** Tab bar taps scroll the pager; the page callback does the rest. */
     private void switchTab(boolean removed) {
+        binding.pager.setCurrentItem(removed ? 1 : 0, true);
+    }
+
+    /** Called when the pager settles on another page, by a swipe or by a tab bar tap. */
+    private void onPageChanged(boolean removed) {
         if (showRemoved == removed) return;
         showRemoved = removed;
         selected.clear();
         binding.cbUser.setVisibility(removed ? View.GONE : View.VISIBLE);
         paintTabs(true);
+        shown = pageLists.get(removed ? 1 : 0);
+        adapters[0].notifyDataSetChanged();
+        adapters[1].notifyDataSetChanged();
+        updateCount();
         updateFab();
-        // Fade the list out, swap its content, fade back in.
-        binding.list.animate().cancel();
-        binding.empty.animate().cancel();
-        binding.list.animate().alpha(0f).setDuration(120).withEndAction(() -> {
-            applyFilter();
-            binding.list.scrollToPosition(0);
-            binding.list.animate().alpha(1f).setDuration(220).start();
-        }).start();
-        binding.empty.animate().alpha(0f).setDuration(120).withEndAction(
-                () -> binding.empty.animate().alpha(1f).setDuration(220).start()).start();
     }
 
     /**
@@ -436,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
             for (AppEntry e : shown) {
                 if (!e.protectedApp) selected.add(e.packageName);
             }
-            adapter.notifyDataSetChanged();
+            current().notifyDataSetChanged();
             updateFab();
             return true;
         }
@@ -449,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if (added == 0) toast(R.string.none_recommended);
-            adapter.notifyDataSetChanged();
+            current().notifyDataSetChanged();
             updateFab();
             return true;
         }
@@ -462,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.menu_clear) {
             selected.clear();
-            adapter.notifyDataSetChanged();
+            current().notifyDataSetChanged();
             updateFab();
             return true;
         }

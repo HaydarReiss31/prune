@@ -7,6 +7,8 @@ An Android debloater built on [Shevery-API](https://github.com/HmnDev-Tech/Sheve
 - Lists system apps by default, with an option to include user apps
 - Removal advice from the [Universal Android Debloater Next Generation](https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation) lists, bundled with the app (Recommended, Advanced, Expert, Unsafe, Unlisted)
 - Search, filter by rating, and sort by name, package name or risk
+- Swipe left or right anywhere on the list to switch between Apps and Removed (or tap the floating bar)
+- Swipe left or right anywhere on the list to switch between Apps and Removed (or tap the floating bar)
 - Tap to select several apps (with a haptic tick and a live counter), or select every Recommended app in one tap
 - Risk summary in the confirmation dialog, e.g. "3 Recommended · 1 Expert"
 - **Undo** bar after a removal: one tap restores everything you just removed
@@ -66,6 +68,8 @@ app/src/main/
   java/com/haydareiss/prune/
     MainActivity.java           list, selection, details sheet, remove/restore flow
     AppAdapter.java             list adapter
+    PageAdapter.java            the two swipeable pages (Apps, Removed)
+    PageAdapter.java            the two swipeable pages (Apps, Removed)
     AppEntry.java               list item model
     UadRepository.java          loads the bundled removal list
     UadInfo.java                removal advice for one package
