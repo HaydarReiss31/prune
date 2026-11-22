@@ -45,7 +45,17 @@ Prune includes the `aidl`, `shared`, `api` and `provider` modules of Shevery-API
 
 ### GitHub Actions
 
-Push the project to a GitHub repository. The **Build APK** workflow checks out Shevery-API itself, builds a debug APK, and uploads it as the `Prune-debug` artifact. For reproducible builds, replace `ref: main` in `.github/workflows/build.yml` with a specific commit SHA.
+Push the project to a GitHub repository. The **Build APK** workflow checks out Shevery-API itself, builds a debug and a release APK, and uploads them as the `Prune-debug` and `Prune-release` artifacts. Use the release APK for daily use: it is not debuggable and runs noticeably smoother.
+
+By default the release APK is signed with the debug key, which changes on every CI run, so you have to uninstall the old build before installing a new one. To keep updates working, sign with your own key:
+
+1. Create a keystore once and keep a backup (if you lose it, you cannot update installed copies):
+   ```bash
+   keytool -genkeypair -v -keystore prune.jks -alias prune -keyalg RSA -keysize 4096 -validity 36500
+   base64 -w0 prune.jks > prune.jks.b64
+   ```
+2. In the GitHub repository, open **Settings → Secrets and variables → Actions** and add these secrets: `KEYSTORE_BASE64` (contents of `prune.jks.b64`), `KEYSTORE_PASSWORD`, `KEY_ALIAS` (`prune` in the example) and `KEY_PASSWORD`.
+3. Re-run the workflow. `*.jks` and `*.b64` are git-ignored. For reproducible builds, replace `ref: main` in `.github/workflows/build.yml` with a specific commit SHA.
 
 ### Local build
 
@@ -56,7 +66,7 @@ git clone https://github.com/HmnDev-Tech/Shevery-API
 ./gradlew :app:assembleDebug
 ```
 
-The APK is written to `app/build/outputs/apk/debug/`.
+The APKs are written to `app/build/outputs/apk/debug/` (`:app:assembleDebug`) and `app/build/outputs/apk/release/` (`:app:assembleRelease`).
 
 The plugin versions in `settings.gradle` (Android Gradle Plugin 9.4.0-alpha07) and the Gradle wrapper match the ones used by Shevery-API. If Shevery-API updates its toolchain, update them to match.
 
