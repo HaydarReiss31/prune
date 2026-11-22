@@ -28,47 +28,9 @@
         </menu>
     </item>
     <item
-        android:id="@+id/menu_theme"
-        android:title="@string/menu_theme">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/theme_system"
-                    android:title="@string/theme_system" />
-                <item
-                    android:id="@+id/theme_light"
-                    android:title="@string/theme_light" />
-                <item
-                    android:id="@+id/theme_dark"
-                    android:title="@string/theme_dark" />
-            </group>
-        </menu>
-    </item>
-    <item
-        android:id="@+id/menu_language"
-        android:title="@string/menu_language">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/lang_system"
-                    android:title="@string/lang_system" />
-                <item
-                    android:id="@+id/lang_en"
-                    android:title="@string/lang_english" />
-                <item
-                    android:id="@+id/lang_tr"
-                    android:title="@string/lang_turkish" />
-            </group>
-        </menu>
-    </item>
-    <item
-        android:id="@+id/menu_black"
-        android:checkable="true"
-        android:title="@string/menu_black" />
-    <item
         android:id="@+id/menu_refresh"
         android:title="@string/menu_refresh" />
     <item
-        android:id="@+id/menu_about"
-        android:title="@string/menu_about" />
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings" />
 </menu>

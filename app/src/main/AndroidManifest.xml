@@ -27,6 +27,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/menu_settings"
+            android:parentActivityName=".MainActivity" />
+
         <!-- Keeps the in-app language choice on Android 12 and older -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

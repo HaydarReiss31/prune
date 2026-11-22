@@ -19,9 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
-import androidx.core.os.LocaleListCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     /** null means "all levels". */
     private UadInfo.Level levelFilter = null;
     private int uadSize = 0;
+    /** Pure black setting this activity was themed with; a change in Settings recreates it. */
+    private boolean blackAtCreate;
 
     private final SheveryPrivilege.OnBinderReceivedListener binderReceived = this::updateState;
     private final SheveryPrivilege.OnBinderDeadListener binderDead = this::updateState;
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ThemePrefs.applyOverlay(this);
+        blackAtCreate = ThemePrefs.pureBlack(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -110,17 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.toolbar.inflateMenu(R.menu.main_menu);
         binding.toolbar.setOnMenuItemClickListener(this::onMenuItem);
-        int mode = ThemePrefs.mode(this);
-        binding.toolbar.getMenu().findItem(mode == AppCompatDelegate.MODE_NIGHT_YES ? R.id.theme_dark
-                : mode == AppCompatDelegate.MODE_NIGHT_NO ? R.id.theme_light : R.id.theme_system)
-                .setChecked(true);
-        binding.toolbar.getMenu().findItem(R.id.menu_black).setChecked(ThemePrefs.pureBlack(this));
-        LocaleListCompat appLocales = AppCompatDelegate.getApplicationLocales();
-        String lang = appLocales.isEmpty() || appLocales.get(0) == null ? "" : appLocales.get(0).getLanguage();
-        binding.toolbar.getMenu().findItem("tr".equals(lang) ? R.id.lang_tr
-                : "en".equals(lang) ? R.id.lang_en : R.id.lang_system).setChecked(true);
 
-                // Segments are plain buttons: tapping one switches the tab and repaints the bar.
+        // Segments are plain buttons: tapping one switches the tab and repaints the bar.
         binding.tabApps.setOnClickListener(v -> switchTab(false));
         binding.tabRemoved.setOnClickListener(v -> switchTab(true));
         paintTabs(false);
@@ -171,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // ---------------------------------------------------------------- connection state
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ThemePrefs.pureBlack(this) != blackAtCreate) recreate();
+    }
 
     private boolean isReady() {
         try {
@@ -369,8 +367,17 @@ public class MainActivity extends AppCompatActivity {
         selected.clear();
         binding.cbUser.setVisibility(removed ? View.GONE : View.VISIBLE);
         paintTabs(true);
-        applyFilter();
         updateFab();
+        // Fade the list out, swap its content, fade back in.
+        binding.list.animate().cancel();
+        binding.empty.animate().cancel();
+        binding.list.animate().alpha(0f).setDuration(120).withEndAction(() -> {
+            applyFilter();
+            binding.list.scrollToPosition(0);
+            binding.list.animate().alpha(1f).setDuration(220).start();
+        }).start();
+        binding.empty.animate().alpha(0f).setDuration(120).withEndAction(
+                () -> binding.empty.animate().alpha(1f).setDuration(220).start()).start();
     }
 
     /**
@@ -453,27 +460,6 @@ public class MainActivity extends AppCompatActivity {
             applyFilter();
             return true;
         }
-        if (id == R.id.theme_system || id == R.id.theme_light || id == R.id.theme_dark) {
-            item.setChecked(true);
-            ThemePrefs.setMode(this, id == R.id.theme_light ? AppCompatDelegate.MODE_NIGHT_NO
-                    : id == R.id.theme_dark ? AppCompatDelegate.MODE_NIGHT_YES
-                    : AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            return true;
-        }
-        if (id == R.id.lang_system || id == R.id.lang_en || id == R.id.lang_tr) {
-            item.setChecked(true);
-            // AppCompat recreates the activity and remembers the choice.
-            AppCompatDelegate.setApplicationLocales(id == R.id.lang_tr ? LocaleListCompat.forLanguageTags("tr")
-                    : id == R.id.lang_en ? LocaleListCompat.forLanguageTags("en")
-                    : LocaleListCompat.getEmptyLocaleList());
-            return true;
-        }
-        if (id == R.id.menu_black) {
-            item.setChecked(!item.isChecked());
-            ThemePrefs.setPureBlack(this, item.isChecked());
-            recreate();
-            return true;
-        }
         if (id == R.id.menu_clear) {
             selected.clear();
             adapter.notifyDataSetChanged();
@@ -484,12 +470,8 @@ public class MainActivity extends AppCompatActivity {
             loadApps();
             return true;
         }
-        if (id == R.id.menu_about) {
-            new MaterialAlertDialogBuilder(this)
-                    .setTitle(R.string.about_title)
-                    .setMessage(getString(R.string.about_message, uadSize))
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+        if (id == R.id.menu_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return false;

@@ -39,6 +39,12 @@
     <string name="theme_dark">Koyu</string>
     <string name="menu_black">Saf siyah (koyu mod)</string>
     <string name="menu_language">Dil</string>
+    <string name="menu_settings">Ayarlar</string>
+    <string name="settings_appearance">Görünüm</string>
+    <string name="settings_about">Hakkında</string>
+    <string name="settings_black_summary">Koyu modda tam siyah arka plan</string>
+    <string name="settings_version">Sürüm %1$s</string>
+    <string name="action_back">Geri</string>
     <string name="lang_system">Sistem dili</string>
 
     <string name="sort_name">Ad</string>
