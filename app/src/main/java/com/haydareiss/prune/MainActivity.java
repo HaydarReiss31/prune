@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private final AppAdapter[] adapters = new AppAdapter[2];
     private PageAdapter pages;
+    /** Page whose rows must be redrawn after the pager settles, or -1. */
+    private int stalePage = -1;
     private final List<List<AppEntry>> pageLists = new ArrayList<>();
     private IconLoader icons;
 
@@ -119,6 +121,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 onPageChanged(position == 1);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Heavy work (rebinding rows) waits until the page has stopped moving.
+                if (state == ViewPager2.SCROLL_STATE_IDLE && stalePage >= 0) {
+                    adapters[stalePage].notifyDataSetChanged();
+                    stalePage = -1;
+                }
             }
         });
 
@@ -404,8 +415,8 @@ public class MainActivity extends AppCompatActivity {
         binding.cbUser.setVisibility(removed ? View.GONE : View.VISIBLE);
         paintTabs(true);
         shown = pageLists.get(removed ? 1 : 0);
-        adapters[0].notifyDataSetChanged();
-        adapters[1].notifyDataSetChanged();
+        // The page we left still shows old selection marks; refresh it once the swipe settles.
+        stalePage = removed ? 0 : 1;
         updateCount();
         updateFab();
     }
